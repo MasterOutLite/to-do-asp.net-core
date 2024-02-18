@@ -1,15 +1,3 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Domain.Exceptions.Base;
 
-namespace Domain.Exceptions.Base
-{
-    public abstract class NotFoundException : Exception
-    {
-        public NotFoundException(string message) : base(message)
-        {
-        }
-    }
-}
+public abstract class NotFoundException(string message) : Exception(message);

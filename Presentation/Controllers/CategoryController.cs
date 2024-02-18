@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Net;
 using Application.Categories.Commands.CreateCategory;
 using Application.Categories.Queries.GetCategoryById;
 using Application.Categories.Queries.GetCategoryUser;
+using Application.Common.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.Controllers.Base;
 
@@ -14,6 +12,7 @@ namespace Presentation.Controllers;
 public class CategoryController : ApiController
 {
     [HttpGet("all")]
+    [ProducesResponseType(typeof(List<CategoryResponse>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetCategory([FromQuery] GetCategoryQuery query)
     {
         var res = await Sender.Send(query);
@@ -21,6 +20,7 @@ public class CategoryController : ApiController
     }
 
     [HttpGet]
+    [ProducesResponseType(typeof(CategoryResponse), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetCategoryById([FromQuery] GetCategoryByIdQuery query)
     {
         var res = await Sender.Send(query);
@@ -28,6 +28,7 @@ public class CategoryController : ApiController
     }
 
     [HttpPost]
+    [ProducesResponseType(typeof(long), StatusCodes.Status201Created)]
     public async Task<IActionResult> CreateCategory([FromBody] CreateCategoryCommand command)
     {
         var res = await Sender.Send(command);

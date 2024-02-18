@@ -1,6 +1,5 @@
 ﻿using Application.Abstractions.Messaging;
 using Application.Common.Interfaces;
-using Application.Common.Models;
 using Domain.Exceptions;
 using Mapster;
 

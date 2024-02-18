@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <Folder Include="Exception\" />
+    <Folder Include="Users\Queries\" />
   </ItemGroup>
 
 </Project>

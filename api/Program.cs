@@ -1,5 +1,7 @@
 using Application;
+using Domain.Entities;
 using Infrastructure;
+using Microsoft.AspNetCore.Identity;
 using Presentation;
 using Serilog;
 
@@ -19,7 +21,7 @@ builder.Host.UseSerilog((context, configuration) =>
 
 builder.Services
     .AddApplicationServices()
-    .AddInfrastructureService();
+    .AddInfrastructureService(builder.Configuration);
 
 
 var app = builder.Build();
@@ -30,6 +32,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+// ???????????????????
+app.MapIdentityApi<ApplicationUser>();
 
 app.UseSerilogRequestLogging();
 

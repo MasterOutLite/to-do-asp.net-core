@@ -8,6 +8,6 @@ public class User : BaseEntity
     public string Email { get; set; } = String.Empty;
     public string Password { get; set; } = String.Empty;
 
-    public List<ToDo> toDos { get; set; }
-    public List<Category> categorys { get; set; }
+    // public List<ToDo> toDos { get; set; }
+    // public List<Category> categorys { get; set; }
 }

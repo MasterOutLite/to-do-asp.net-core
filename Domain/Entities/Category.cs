@@ -10,5 +10,5 @@ public class Category : BaseEntity
     public List<ToDo> ToDos { get; set; } = new();
 
     public long UserId { get; set; }
-    public User User { get; set; }
+    public ApplicationUser User { get; set; }
 }

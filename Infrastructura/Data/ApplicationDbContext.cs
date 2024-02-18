@@ -1,11 +1,13 @@
 ﻿using Application.Common.Interfaces;
 using Domain.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
 namespace Infrastructure.Data
 {
-    public class ApplicationDbContext : DbContext, IApplicationDbContext
+    public sealed class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, long>,
+        IApplicationDbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {

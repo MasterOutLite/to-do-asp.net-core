@@ -1,4 +1,4 @@
-﻿using Application.Abstractions.Models;
+﻿using Application.Common.Models;
 using Application.ToDos.Commands.CreateToDo;
 using Application.ToDos.Queries.GetToDoById;
 using Application.ToDos.Queries.GetToDoList;

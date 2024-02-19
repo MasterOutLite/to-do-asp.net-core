@@ -1,5 +1,5 @@
 ﻿using Application.Abstractions.Messaging;
-using Application.Abstractions.Models;
+using Application.Common.Models;
 
 namespace Application.Users.Command.CreateUser;
 

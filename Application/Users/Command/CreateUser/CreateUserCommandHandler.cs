@@ -1,6 +1,6 @@
 ﻿using Application.Abstractions.Interfaces;
 using Application.Abstractions.Messaging;
-using Application.Abstractions.Models;
+using Application.Common.Models;
 using Domain.Entities;
 using Mapster;
 

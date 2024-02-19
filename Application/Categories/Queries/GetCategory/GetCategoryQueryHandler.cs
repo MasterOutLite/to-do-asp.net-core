@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Application.Abstractions.Interfaces;
 using Application.Abstractions.Messaging;
-using Application.Abstractions.Models;
+using Application.Common.Models;
 using Mapster;
 
 namespace Application.Categories.Queries.GetCategoryUser;

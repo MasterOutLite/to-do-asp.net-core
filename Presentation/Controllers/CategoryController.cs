@@ -1,8 +1,8 @@
 ﻿using System.Net;
-using Application.Abstractions.Models;
 using Application.Categories.Commands.CreateCategory;
 using Application.Categories.Queries.GetCategoryById;
 using Application.Categories.Queries.GetCategoryUser;
+using Application.Common.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.Controllers.Base;

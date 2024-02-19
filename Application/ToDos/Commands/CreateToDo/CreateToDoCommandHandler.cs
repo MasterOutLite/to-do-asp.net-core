@@ -1,5 +1,5 @@
-﻿using Application.Abstractions.Messaging;
-using Application.Common.Interfaces;
+﻿using Application.Abstractions.Interfaces;
+using Application.Abstractions.Messaging;
 using Domain.Entities;
 using Domain.Exceptions;
 using Mapster;

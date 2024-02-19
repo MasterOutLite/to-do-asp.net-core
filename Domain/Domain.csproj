@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Constants\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Mapster" Version="7.4.0" />
     <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="8.0.2" />
     <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="8.0.2" />

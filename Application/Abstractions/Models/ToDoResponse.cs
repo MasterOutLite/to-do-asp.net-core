@@ -1,4 +1,4 @@
-﻿namespace Application.Common.Models;
+﻿namespace Application.Abstractions.Models;
 
 public sealed record ToDoResponse(
     long Id,

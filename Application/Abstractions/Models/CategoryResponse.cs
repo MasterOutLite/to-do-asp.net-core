@@ -4,6 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Common.Models;
+namespace Application.Abstractions.Models;
 
 public record CategoryResponse(long Id, string Name, string Description, long UserId);

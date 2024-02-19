@@ -1,12 +1,10 @@
-﻿using Application.Common.Interfaces;
+﻿using Application.Abstractions.Interfaces;
 using Domain.Entities;
 using Infrastructure.Data;
-using Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Serilog;
 
 namespace Infrastructure;
 
@@ -22,16 +20,14 @@ public static class DependencyInjection
                 )
         );
 
-        Console.WriteLine(configuration.GetConnectionString("PostgresConnect")!);
-
         services.AddIdentity<ApplicationUser, ApplicationRole>()
-            // services.AddIdentityCore<ApplicationUser>()
-            //     .AddRoles<ApplicationRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddUserManager<UserManager<ApplicationUser>>()
+            .AddSignInManager<SignInManager<ApplicationUser>>()
             .AddDefaultTokenProviders();
 
         services.AddAuthentication().AddBearerToken(IdentityConstants.BearerScheme);
-        services.AddAuthorizationBuilder();
+        services.AddAuthorization();
 
         return services;
     }

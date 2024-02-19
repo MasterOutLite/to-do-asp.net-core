@@ -1,5 +1,4 @@
 ﻿using Application.Abstractions.Messaging;
-using Application.Common.Models;
 
 namespace Application.Categories.Commands.CreateCategory;
 

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Application.Abstractions.Interfaces;
 using Application.Abstractions.Messaging;
-using Application.Common.Interfaces;
-using Application.Common.Models;
+using Application.Abstractions.Models;
 using Mapster;
 
 namespace Application.Categories.Queries.GetCategoryUser;

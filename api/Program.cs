@@ -1,7 +1,6 @@
 using Application;
 using Domain.Entities;
 using Infrastructure;
-using Microsoft.AspNetCore.Identity;
 using Presentation;
 using Serilog;
 
@@ -26,6 +25,9 @@ builder.Services
 
 var app = builder.Build();
 
+app.UseAuthorization();
+app.UseAuthentication();
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -33,14 +35,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-// ???????????????????
-app.MapIdentityApi<ApplicationUser>();
-
 app.UseSerilogRequestLogging();
 
 app.UseHttpsRedirection();
-
-app.UseAuthorization();
 
 app.MapControllers();
 

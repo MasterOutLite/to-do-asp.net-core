@@ -1,5 +1,5 @@
 ﻿using Application.Abstractions.Messaging;
-using Application.Common.Models;
+using Application.Abstractions.Models;
 
 namespace Application.Categories.Queries.GetCategoryById;
 

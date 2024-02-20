@@ -1,5 +1,4 @@
-﻿using System.Security.Claims;
-using Domain.Entities;
+﻿using Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;

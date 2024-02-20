@@ -1,19 +1,18 @@
-﻿using Application.Abstractions.Messaging;
-using Application.Common.Extensions;
+﻿using Application.Abstractions.Interfaces;
+using Application.Abstractions.Messaging;
 using Application.Common.Models;
+using Domain.Constants;
 using Domain.Entities;
-using Domain.Exceptions;
+using Domain.Exceptions.User;
 using Mapster;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Configuration;
 using Serilog;
 
 namespace Application.Auth.Command.RegistrationUser;
 
 public class RegistrationUserCommandHandler(
     UserManager<ApplicationUser> userManager,
-    RoleManager<ApplicationRole> roleManager,
-    IConfiguration configuration
+    IJwtProvider jwtProvider
 )
     : ICommandHandler<RegistrationUserCommand, ResponseToken>
 {
@@ -22,21 +21,31 @@ public class RegistrationUserCommandHandler(
         CancellationToken cancellationToken
     )
     {
-        var user = request.Adapt<ApplicationUser>();
-
-        var res = await userManager.CreateAsync(user, request.Password);
-
-        if (!res.Succeeded)
+        var exist = await userManager.FindByNameAsync(request.UserName);
+        if (exist is not null)
         {
-            Log.Information("Succeeded: {suc}. Error: {@error}", res.Succeeded, res.Errors);
+            throw new BadRequestUserExistException();
+        }
+
+        var user = request.Adapt<ApplicationUser>();
+        var resultUser = await userManager.CreateAsync(user, request.Password);
+
+        if (!resultUser.Succeeded)
+        {
+            Log.Information("Succeeded: {suc}. Error: {@error}", resultUser.Succeeded, resultUser.Errors);
             throw new UnauthorizedFailLoginException();
         }
 
-        //await userManager.AddToRoleAsync(user, Role.Member);
+        var resultRole = await userManager.AddToRoleAsync(user, Role.User.ToString());
+        if (!resultRole.Succeeded)
+        {
+            Log.Information("User: {@user}. Error: {@error}", user, resultRole.Errors);
+        }
 
-        string token = user.CreateClaims(new())
-            .EncodedToken(configuration)
-            .GetToken();
+        var role = await userManager.GetRolesAsync(user);
+        Log.Information("User: {@user}. Role: {@role}", user, role);
+
+        var token = jwtProvider.CreateToken(user, role);
 
         return new ResponseToken(token);
     }

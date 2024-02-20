@@ -1,10 +1,13 @@
 ﻿using Application.Abstractions.Interfaces;
 using Domain.Entities;
+using Infrastructure.Authentication;
 using Infrastructure.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Infrastructure;
 
@@ -26,8 +29,9 @@ public static class DependencyInjection
             .AddSignInManager<SignInManager<ApplicationUser>>()
             .AddDefaultTokenProviders();
 
-        services.AddAuthentication().AddBearerToken(IdentityConstants.BearerScheme);
-        services.AddAuthorization();
+        services.AddTransient<IJwtProvider, JwtProvider>();
+        //services.AddSingleton<IAuthorizationHandler, AuthorizationHandler>();
+        //services.AddSingleton<IAuthorizationPolicyProvider, AuthorizationPolicyProvider>();
 
         return services;
     }

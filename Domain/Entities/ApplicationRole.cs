@@ -2,6 +2,4 @@
 
 namespace Domain.Entities;
 
-public class ApplicationRole : IdentityRole<long>
-{
-}
+public class ApplicationRole : IdentityRole<long>;

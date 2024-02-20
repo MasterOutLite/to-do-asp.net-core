@@ -1,6 +1,6 @@
 ﻿using Application.Abstractions.Interfaces;
 using Application.Abstractions.Messaging;
-using Domain.Exceptions;
+using Domain.Exceptions.User;
 using Mapster;
 
 namespace Application.Categories.Commands.CreateCategory;

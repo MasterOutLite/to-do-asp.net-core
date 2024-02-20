@@ -1,19 +1,16 @@
 ﻿using Application.Abstractions.Interfaces;
 using Application.Abstractions.Messaging;
-using Application.Common.Extensions;
 using Application.Common.Models;
 using Domain.Entities;
-using Domain.Exceptions;
+using Domain.Exceptions.User;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Configuration;
+using Serilog;
 
 namespace Application.Auth.Command.Login;
 
 public class LoginCommandHandler(
     UserManager<ApplicationUser> userManager,
-    SignInManager<ApplicationUser> signInManager,
-    IConfiguration configuration,
-    IApplicationDbContext dbContext
+    IJwtProvider jwtProvider
 )
     : ICommandHandler<LoginCommand, ResponseToken>
 {
@@ -32,9 +29,11 @@ public class LoginCommandHandler(
             throw new UnauthorizedFailLoginException();
         }
 
-        var token = user.CreateClaims(new())
-            .EncodedToken(configuration)
-            .GetToken();
+        var role = await userManager.GetRolesAsync(user);
+
+        Log.Information("User: {@user}. Role: {@role}", user, role);
+
+        string token = jwtProvider.CreateToken(user, role);
 
         return new ResponseToken(token);
     }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Options;
 
 namespace Infrastructure.Authentication;
@@ -18,8 +19,9 @@ internal class AuthorizationPolicyProvider : DefaultAuthorizationPolicyProvider
             return policy;
         }
 
-        return new AuthorizationPolicyBuilder()
+        return new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme)
             .AddRequirements(new RoleRequirement(policyName))
+            .RequireAuthenticatedUser()
             .Build();
     }
 }

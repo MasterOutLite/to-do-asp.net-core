@@ -6,6 +6,7 @@ using Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Presentation;
 using Serilog;
@@ -32,37 +33,14 @@ builder.Services
 builder.Services.ConfigureOptions<JwtOptionSetup>();
 builder.Services.ConfigureOptions<JwtBearerOptionSetup>();
 
-
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer();
-//builder.Services.AddAuthorization();
+builder.Services.AddAuthorization();
 
-builder.Services.AddAuthorization(options => options.DefaultPolicy =
-    new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme)
-        .RequireAuthenticatedUser()
-        .Build());
-
-//builder.Services.AddAuthentication(
-//        options =>
-//        {
-//            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-//            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-//        })
-//    .AddBearerToken(IdentityConstants.BearerScheme)
-//    .AddJwtBearer(options => options.TokenValidationParameters = new TokenValidationParameters()
-//    {
-//        ValidateIssuer = false,
-//        ValidateAudience = false,
-//        ValidateLifetime = true,
-//        ValidateIssuerSigningKey = true,
-//        ValidIssuer = builder.Configuration["Jwt:Issuer"],
-//        ValidAudience = builder.Configuration["Jwt:Audience"],
-//        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:SigningKey"]!))
-//    });
-
-
-
-
+//builder.Services.AddAuthorization(options => options.DefaultPolicy =
+//    new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme)
+//        .RequireAuthenticatedUser()
+//        .Build());
 
 var app = builder.Build();
 

@@ -10,7 +10,7 @@ namespace Presentation.Controllers;
 public class WeatherForecastController : ApiController
 {
     //[HasPermission(Permissions.ReadUser)]
-    [Authorize]
+    [Authorize(policy: "User")]
     [HttpGet]
     [ProducesResponseType(typeof(List<WeatherForecast>), StatusCodes.Status200OK)]
     public async Task<IActionResult> Get([FromQuery] GetWeatherCommand query)

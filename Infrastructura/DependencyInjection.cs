@@ -30,8 +30,8 @@ public static class DependencyInjection
             .AddDefaultTokenProviders();
 
         services.AddTransient<IJwtProvider, JwtProvider>();
-        //services.AddSingleton<IAuthorizationHandler, AuthorizationHandler>();
-        //services.AddSingleton<IAuthorizationPolicyProvider, AuthorizationPolicyProvider>();
+        services.AddSingleton<IAuthorizationHandler, AuthorizationOwnHandler>();
+        services.AddSingleton<IAuthorizationPolicyProvider, AuthorizationPolicyProvider>();
 
         return services;
     }

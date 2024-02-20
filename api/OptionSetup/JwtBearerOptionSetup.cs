@@ -3,10 +3,11 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Infrastructure.Authentication;
+using Serilog;
 
 namespace api.OptionSetup;
 
-public class JwtBearerOptionSetup : IConfigureOptions<JwtBearerOptions>
+public class JwtBearerOptionSetup : IConfigureNamedOptions<JwtBearerOptions>
 {
     private readonly JwtOptions _jwtOptions;
 
@@ -17,7 +18,16 @@ public class JwtBearerOptionSetup : IConfigureOptions<JwtBearerOptions>
 
     public void Configure(JwtBearerOptions options)
     {
-        Console.WriteLine(_jwtOptions);
+        Log.Information("No name Configure called of {className}",
+            nameof(JwtBearerOptionSetup));
+        Configure(JwtBearerDefaults.AuthenticationScheme, options);
+    }
+
+    public void Configure(string? name, JwtBearerOptions options)
+    {
+        Log.Information(
+            "{name}.{methodName} is called. Policy name: {policyName}. Options: {@options}",
+            nameof(JwtBearerOptionSetup), nameof(Configure), name, _jwtOptions);
         options.TokenValidationParameters = new TokenValidationParameters()
         {
             ValidateIssuer = false,

@@ -13,7 +13,8 @@ internal class RoleConfiguration : IEntityTypeConfiguration<ApplicationRole>
             .Select(role => new ApplicationRole()
             {
                 Id = (int)role,
-                Name = role.ToString()
+                Name = role.ToString(),
+                NormalizedName = role.ToString().Normalize().ToUpper(),
             });
 
         builder.HasData(roles);

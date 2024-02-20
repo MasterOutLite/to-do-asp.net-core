@@ -4,12 +4,9 @@ using Microsoft.Extensions.Options;
 
 namespace Infrastructure.Authentication;
 
-internal class AuthorizationPolicyProvider : DefaultAuthorizationPolicyProvider
+internal class AuthorizationPolicyProvider(IOptions<AuthorizationOptions> options)
+    : DefaultAuthorizationPolicyProvider(options)
 {
-    public AuthorizationPolicyProvider(IOptions<AuthorizationOptions> options) : base(options)
-    {
-    }
-
     public override async Task<AuthorizationPolicy?> GetPolicyAsync(string policyName)
     {
         var policy = await base.GetPolicyAsync(policyName);

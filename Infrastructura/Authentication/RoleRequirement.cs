@@ -2,12 +2,7 @@
 
 namespace Infrastructure.Authentication;
 
-public class RoleRequirement : IAuthorizationRequirement
+public class RoleRequirement(string role) : IAuthorizationRequirement
 {
-    public RoleRequirement(string role)
-    {
-        Role = role;
-    }
-
-    public string Role { get; }
+    public string Role { get; } = role;
 }

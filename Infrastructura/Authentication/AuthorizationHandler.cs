@@ -1,15 +1,13 @@
 ﻿using System.Security.Claims;
 using Domain.Entities;
-using Domain.Exceptions.User;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 
 namespace Infrastructure.Authentication;
 
-public class AuthorizationOwnHandler(IServiceScopeFactory scopeFactory)
+public class AuthorizationHandler(IServiceScopeFactory scopeFactory)
     : AuthorizationHandler<RoleRequirement>
 {
     protected override async Task HandleRequirementAsync(
@@ -20,12 +18,10 @@ public class AuthorizationOwnHandler(IServiceScopeFactory scopeFactory)
         string? userId = context.User.Claims.FirstOrDefault(
             x => x.Type == JwtClaims.Id)?.Value;
 
-        string? id = context.User.FindFirstValue(JwtClaims.Id);
-
         Log.Information("User id: {@userId}.",
-            id);
+            userId);
 
-        if (!long.TryParse(userId, out long parseUserId))
+        if (userId is null)
         {
             return;
         }

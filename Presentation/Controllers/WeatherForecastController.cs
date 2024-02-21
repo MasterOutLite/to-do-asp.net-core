@@ -1,4 +1,5 @@
 using Application.Weathers.Queries.GetWeather;
+using Domain.Constants;
 using Infrastructure.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -9,8 +10,8 @@ namespace Presentation.Controllers;
 
 public class WeatherForecastController : ApiController
 {
-    //[HasPermission(Permissions.ReadUser)]
-    [Authorize(policy: "User")]
+    [HasPermission(Role.User)]
+    //[Authorize()]
     [HttpGet]
     [ProducesResponseType(typeof(List<WeatherForecast>), StatusCodes.Status200OK)]
     public async Task<IActionResult> Get([FromQuery] GetWeatherCommand query)

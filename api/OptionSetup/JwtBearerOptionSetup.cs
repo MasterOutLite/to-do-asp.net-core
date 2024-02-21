@@ -2,8 +2,8 @@
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using Infrastructure.Authentication;
 using Serilog;
+using Infrastructure.Options;
 
 namespace api.OptionSetup;
 

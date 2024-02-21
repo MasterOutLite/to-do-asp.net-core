@@ -1,10 +1,11 @@
 ﻿using Domain.Entities;
+using Infrastructure.Authentication.AuthorizationRequirement;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 
-namespace Infrastructure.Authentication;
+namespace Infrastructure.Authentication.AuthorizationHandler;
 
 public class AuthorizationHandler(IServiceScopeFactory scopeFactory)
     : AuthorizationHandler<RoleRequirement>
@@ -16,6 +17,7 @@ public class AuthorizationHandler(IServiceScopeFactory scopeFactory)
     {
         string? userId = context.User.Claims.FirstOrDefault(
             x => x.Type == JwtClaims.Id)?.Value;
+        //string? id = context.User.FindFirstValue(JwtClaims.Id);
 
         Log.Information("User id: {@userId}.",
             userId);

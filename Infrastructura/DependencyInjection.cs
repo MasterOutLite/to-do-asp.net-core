@@ -1,13 +1,15 @@
 ﻿using Application.Abstractions.Interfaces;
 using Domain.Entities;
 using Infrastructure.Authentication;
+using Infrastructure.Authentication.AuthorizationHandler;
+using Infrastructure.Authentication.Policy;
 using Infrastructure.Data;
+using Infrastructure.Options;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Tokens;
 
 namespace Infrastructure;
 
@@ -30,8 +32,8 @@ public static class DependencyInjection
             .AddDefaultTokenProviders();
 
         services.AddTransient<IJwtProvider, JwtProvider>();
-        services.AddSingleton<IAuthorizationHandler, AuthorizationHandler>();
-        services.AddSingleton<IAuthorizationPolicyProvider, AuthorizationPolicyProvider>();
+        services.AddTransient<IAuthorizationHandler, AuthorizationHandler>();
+        services.AddTransient<IAuthorizationPolicyProvider, AuthorizationPolicyProvider>();
 
         return services;
     }

@@ -1,13 +1,7 @@
-using System.Text;
 using api.OptionSetup;
 using Application;
-using Domain.Entities;
 using Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
 using Presentation;
 using Serilog;
 
@@ -32,15 +26,12 @@ builder.Services
 
 builder.Services.ConfigureOptions<JwtOptionSetup>();
 builder.Services.ConfigureOptions<JwtBearerOptionSetup>();
+builder.Services.ConfigureOptions<AuthorizationOptionsSetup>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer();
-builder.Services.AddAuthorization();
 
-//builder.Services.AddAuthorization(options => options.DefaultPolicy =
-//    new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme)
-//        .RequireAuthenticatedUser()
-//        .Build());
+builder.Services.AddAuthorization();
 
 var app = builder.Build();
 

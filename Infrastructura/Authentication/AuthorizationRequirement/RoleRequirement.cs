@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 
-namespace Infrastructure.Authentication;
+namespace Infrastructure.Authentication.AuthorizationRequirement;
 
 public class RoleRequirement(string role) : IAuthorizationRequirement
 {

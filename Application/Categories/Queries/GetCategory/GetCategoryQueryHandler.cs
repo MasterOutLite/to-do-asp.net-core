@@ -1,26 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Application.Abstractions.Interfaces;
-using Application.Abstractions.Messaging;
+﻿using Application.Abstractions.Messaging;
 using Application.Common.Models;
+using Domain.Abstractions.Repository;
 using Mapster;
 
-namespace Application.Categories.Queries.GetCategoryUser;
+namespace Application.Categories.Queries.GetCategory;
 
-public class GetCategoryQueryHandler(IApplicationDbContext dbContext)
+public class GetCategoryQueryHandler(
+    ICategoryRepository categoryRepository
+)
     : IQueryHandler<GetCategoryQuery, IEnumerable<CategoryResponse>>
 {
     public async Task<IEnumerable<CategoryResponse>> Handle(GetCategoryQuery request,
         CancellationToken cancellationToken)
     {
-        var res = await dbContext.Category
-            .Where(category => category.UserId == request.UserId)
-            .OrderBy(category => category.Id)
-            .ToListAsync(cancellationToken);
-
+        var res = await categoryRepository.GetAllByUserId(request.UserId);
         return res.Adapt<List<CategoryResponse>>();
     }
 }

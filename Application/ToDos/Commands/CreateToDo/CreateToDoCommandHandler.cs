@@ -1,5 +1,7 @@
 ﻿using Application.Abstractions.Interfaces;
 using Application.Abstractions.Messaging;
+using Application.Common.Models;
+using Domain.Abstractions.Repository;
 using Domain.Entities;
 using Domain.Exceptions;
 using Mapster;
@@ -7,20 +9,16 @@ using Serilog;
 
 namespace Application.ToDos.Commands.CreateToDo;
 
-public class CreateToDoCommandHandler : ICommandHandler<CreateToDoCommand, long>
+public class CreateToDoCommandHandler(
+    IToDoRepository toDoRepository,
+    ICategoryRepository categoryRepository,
+    IUnitOfWork unitOfWork
+)
+    : ICommandHandler<CreateToDoCommand, ToDoResponse>
 {
-    private readonly IApplicationDbContext _dbContext;
-
-    public CreateToDoCommandHandler(IApplicationDbContext dbContext)
+    public async Task<ToDoResponse> Handle(CreateToDoCommand request, CancellationToken cancellationToken)
     {
-        _dbContext = dbContext;
-    }
-
-    public async Task<long> Handle(CreateToDoCommand request, CancellationToken cancellationToken)
-    {
-        var category = await _dbContext.Category
-            .Where(category => category.Id == request.CategoryId)
-            .FirstOrDefaultAsync(cancellationToken);
+        var category = await categoryRepository.GetByIdAndUserId(request.CategoryId, request.UserId);
 
         if (category is null)
         {
@@ -30,9 +28,9 @@ public class CreateToDoCommandHandler : ICommandHandler<CreateToDoCommand, long>
         var entity = request.Adapt<ToDo>();
         Log.Information("Entity {@Entity}. Dto {@Dto}", entity, request);
 
-        _dbContext.ToDo.Add(entity);
-        await _dbContext.SaveChangesAsync(cancellationToken);
+        toDoRepository.Add(entity);
+        await unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return entity.Id;
+        return entity.Adapt<ToDoResponse>();
     }
 }

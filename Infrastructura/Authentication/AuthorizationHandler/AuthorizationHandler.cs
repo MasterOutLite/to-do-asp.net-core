@@ -10,35 +10,33 @@ namespace Infrastructure.Authentication.AuthorizationHandler;
 public class AuthorizationHandler(IServiceScopeFactory scopeFactory)
     : AuthorizationHandler<RoleRequirement>
 {
-    protected override async Task HandleRequirementAsync(
+    protected override Task HandleRequirementAsync(
         AuthorizationHandlerContext context,
         RoleRequirement requirement
     )
     {
         string? userId = context.User.Claims.FirstOrDefault(
             x => x.Type == JwtClaims.Id)?.Value;
-        //string? id = context.User.FindFirstValue(JwtClaims.Id);
-
-        Log.Information("User id: {@userId}.",
-            userId);
 
         if (userId is null)
         {
-            return;
+            return Task.FromCanceled(default);
+            //return Task.FromException(new ArgumentException("Fail read token"));
         }
 
-        IServiceScope scope = scopeFactory.CreateScope();
+        var role = context.User.Claims
+            .Where(c => c.Type == JwtClaims.Role)
+            .Select(v => v.Value)
+            .ToHashSet();
 
-        var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-        var user = await userManager.FindByIdAsync(userId);
-        var role = await userManager.GetRolesAsync(user!);
-
-        Log.Information("Attribute role: {@role}. User role: {@userRole}",
-            requirement.Role, role);
+        Log.Information("User id: {@userId}. Attribute role: {@role}. User role: {@userRole}",
+            userId, requirement.Role, role);
 
         if (role.Contains(requirement.Role))
         {
             context.Succeed(requirement);
         }
+
+        return Task.CompletedTask;
     }
 }

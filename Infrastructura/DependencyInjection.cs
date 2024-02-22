@@ -1,10 +1,12 @@
 ﻿using Application.Abstractions.Interfaces;
+using Domain.Abstractions.Repository;
 using Domain.Entities;
 using Infrastructure.Authentication;
 using Infrastructure.Authentication.AuthorizationHandler;
 using Infrastructure.Authentication.Policy;
 using Infrastructure.Data;
 using Infrastructure.Options;
+using Infrastructure.Repository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -34,6 +36,10 @@ public static class DependencyInjection
         services.AddTransient<IJwtProvider, JwtProvider>();
         services.AddTransient<IAuthorizationHandler, AuthorizationHandler>();
         services.AddTransient<IAuthorizationPolicyProvider, AuthorizationPolicyProvider>();
+
+        services.AddTransient<IUnitOfWork, UnitOfWork>();
+        services.AddTransient<IToDoRepository, ToDoRepository>();
+        services.AddTransient<ICategoryRepository, CategoryRepository>();
 
         return services;
     }

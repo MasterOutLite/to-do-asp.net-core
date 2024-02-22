@@ -14,15 +14,20 @@ public class JwtProvider(IOptions<JwtOptions> options) : IJwtProvider
 {
     private readonly JwtOptions _jwtOptions = options.Value;
 
-    public string CreateToken(ApplicationUser user, IEnumerable<string> role)
+    public string CreateToken(ApplicationUser user, IEnumerable<string> roles)
     {
-        var claims = new Claim[]
+        var claims = new List<Claim>()
         {
             new(JwtClaims.Id, user.Id.ToString()),
             new(JwtClaims.Username, user.UserName!),
             new(JwtClaims.Email, user.Email!),
-            new(JwtClaims.Role, JsonConvert.SerializeObject(role)),
+            //new(JwtClaims.Role, JsonConvert.SerializeObject(roles)),
         };
+
+        foreach (string role in roles)
+        {
+            claims.Add(new(JwtClaims.Role, role));
+        }
 
         var signingCredentials = new SigningCredentials(
             new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtOptions.SigningKey)),

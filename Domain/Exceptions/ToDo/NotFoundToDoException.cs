@@ -3,4 +3,4 @@
 namespace Domain.Exceptions.ToDo;
 
 public sealed class NotFoundToDoException(long id) :
-    NotFoundException($"Not found ToDo by id {id}!");
+    NotFoundException($"Not found todo of user by id {id}!");

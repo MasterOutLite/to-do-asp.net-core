@@ -1,5 +1,5 @@
 ﻿namespace Domain.Exceptions.User;
 
-internal class ForbiddenUserLoginException
+public class ForbiddenUserLoginException
 {
 }

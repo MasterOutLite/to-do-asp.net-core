@@ -1,5 +1,5 @@
-﻿using Domain.Exceptions.Base;
-using FluentValidation;
+﻿using Domain.Exceptions;
+using Domain.Exceptions.Base;
 using Newtonsoft.Json;
 using Serilog;
 
@@ -36,12 +36,9 @@ public class ExceptionHandlingMiddleware : IMiddleware
 
         if (exception is ValidationException validationException)
         {
-            //errors = validationException.Errors
-            //.SelectMany(
-            //    kvp => kvp.Value,
-            //    (kvp, value) => new ApiError(kvp.Key, value))
-            //.ToArray();
-            // errors = new [];
+            errors = validationException.Errors
+                .Select(error => new ApiError(error.PropertyName, error.ErrorMessage))
+                .ToArray();
         }
 
         var response = new

@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using Application.Abstractions.Behaviors;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Application
@@ -7,8 +8,12 @@ namespace Application
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
-            services.AddMediatR(cnf =>
-                cnf.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+            var application = Assembly.GetExecutingAssembly();
+            services.AddMediatR(cnf => { cnf.RegisterServicesFromAssembly(application); });
+
+            services.AddValidatorsFromAssembly(application);
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+
 
             return services;
         }

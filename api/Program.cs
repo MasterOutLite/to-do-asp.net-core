@@ -3,6 +3,7 @@ using api.OptionSetup;
 using Application;
 using Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.OpenApi.Models;
 using Presentation;
 using Serilog;
@@ -55,6 +56,7 @@ builder.Services
 builder.Services.ConfigureOptions<JwtOptionSetup>();
 builder.Services.ConfigureOptions<JwtBearerOptionSetup>();
 builder.Services.ConfigureOptions<AuthorizationOptionsSetup>();
+
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer();

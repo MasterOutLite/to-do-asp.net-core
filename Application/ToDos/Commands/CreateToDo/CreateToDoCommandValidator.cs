@@ -5,20 +5,20 @@ public sealed class CreateToDoCommandValidator : AbstractValidator<CreateToDoCom
     public CreateToDoCommandValidator()
     {
         RuleFor(c => c.UserId)
-            .NotEmpty()
-            .WithMessage("UserId empty");
+            .NotNull()
+            .GreaterThan(0);
 
         RuleFor(c => c.CategoryId)
-            .NotEmpty()
-            .WithMessage("CategoryId empty");
+            .NotNull()
+            .GreaterThan(0);
 
         RuleFor(c => c.Description)
             .NotEmpty()
-            .WithMessage("Description empty");
+            .NotNull();
 
         RuleFor(c => c.Title)
             .NotEmpty()
-            .WithMessage("Title empty");
+            .NotNull();
         //RuleFor(c => c.Done).Custom()
     }
 }

@@ -1,13 +1,10 @@
-﻿using Domain.Entities;
-using Infrastructure.Authentication.AuthorizationRequirement;
+﻿using Infrastructure.Authentication.AuthorizationRequirement;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 
 namespace Infrastructure.Authentication.AuthorizationHandler;
 
-public class AuthorizationHandler(IServiceScopeFactory scopeFactory)
+public class AuthorizationHandler
     : AuthorizationHandler<RoleRequirement>
 {
     protected override Task HandleRequirementAsync(

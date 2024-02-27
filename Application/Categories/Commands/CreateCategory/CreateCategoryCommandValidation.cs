@@ -4,10 +4,10 @@ public sealed class CreateCategoryCommandValidation : AbstractValidator<CreateCa
 {
     public CreateCategoryCommandValidation()
     {
-        RuleFor(model => model.Description)
+        RuleFor(model => model.Name)
             .NotEmpty();
 
-        RuleFor(model => model.Name)
+        RuleFor(model => model.Description)
             .NotEmpty();
     }
 }

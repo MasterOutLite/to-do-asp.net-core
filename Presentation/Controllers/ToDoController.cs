@@ -2,6 +2,7 @@
 using Application.Common.Models;
 using Application.ToDos.Commands.CreateToDo;
 using Application.ToDos.Commands.DeleteToDo;
+using Application.ToDos.Commands.UpdateToDo;
 using Application.ToDos.Queries.GetToDoById;
 using Application.ToDos.Queries.GetToDoList;
 using Infrastructure.Authentication;
@@ -75,6 +76,28 @@ public class ToDoController : ApiController
         var userId = long.Parse(User.FindFirstValue(JwtClaims.Id)!);
         var command = new DeleteToDoCommand(request.Id, userId);
         var res = await Sender.Send(command);
+        if (!res)
+        {
+            return NotFound(request);
+        }
+
+        return NoContent();
+    }
+
+    [Authorize]
+    [HttpPut]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    public async Task<IActionResult> Update([FromQuery] long id, [FromBody] UpdateToDoRequest request)
+    {
+        var userId = long.Parse(User.FindFirstValue(JwtClaims.Id)!);
+        var command = new UpdateToDoCommand(request.Title,
+            request.Description,
+            request.Done,
+            request.CategoryId,
+            id, userId);
+
+        var res = await Sender.Send(command);
+
         if (!res)
         {
             return NotFound(request);

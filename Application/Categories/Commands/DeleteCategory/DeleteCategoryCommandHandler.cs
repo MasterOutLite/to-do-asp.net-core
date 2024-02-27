@@ -6,13 +6,14 @@ namespace Application.Categories.Commands.DeleteCategory;
 
 public class DeleteCategoryCommandHandler(
     ICategoryRepository categoryRepository,
+    ICategoryRepositoryQuery categoryRepositoryQuery,
     IUnitOfWork unitOfWork
 )
     : ICommandHandler<DeleteCategoryCommand, bool>
 {
     public async Task<bool> Handle(DeleteCategoryCommand request, CancellationToken cancellationToken)
     {
-        var category = await categoryRepository.GetByIdAndUserIdWithRelation(request.Id, request.UserId);
+        var category = await categoryRepositoryQuery.GetByIdAndUserIdWithRelation(request.Id, request.UserId);
 
         if (category is null || category.ToDos.Capacity != 0)
         {

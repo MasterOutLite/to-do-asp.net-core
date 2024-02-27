@@ -42,8 +42,7 @@ public class GetToDoListHandler : IQueryHandler<GetToDoListQuery, PaginationResp
         var toDos = await query
             .Skip(skip)
             .Take(request.Count)
-            //.Include(i => i.Category)
-            .ToListAsync();
+            .ToListAsync(cancellationToken);
 
         int total = await query.CountAsync(cancellationToken);
 

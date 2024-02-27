@@ -7,7 +7,7 @@ using Mapster;
 namespace Application.Categories.Queries.GetCategoryById;
 
 public sealed class GetCategoryByIdQueryHandler(
-    ICategoryRepository categoryRepository
+    ICategoryRepositoryQuery categoryRepository
 ) : IQueryHandler<GetCategoryByIdQuery, CategoryResponse>
 {
     public async Task<CategoryResponse> Handle(GetCategoryByIdQuery request,

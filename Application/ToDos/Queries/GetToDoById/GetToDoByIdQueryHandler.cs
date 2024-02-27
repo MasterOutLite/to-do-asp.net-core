@@ -7,7 +7,7 @@ using Mapster;
 namespace Application.ToDos.Queries.GetToDoById;
 
 public sealed class GetToDoByIdQueryHandler(
-    IToDoRepository toDoRepository
+    IToDoRepositoryQuery toDoRepository
 )
     : IQueryHandler<GetToDoByIdQuery, ToDoResponse>
 {

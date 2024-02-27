@@ -5,7 +5,6 @@ using Infrastructure.Authentication;
 using Infrastructure.Authentication.AuthorizationHandler;
 using Infrastructure.Authentication.Policy;
 using Infrastructure.Data;
-using Infrastructure.Options;
 using Infrastructure.Repository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -20,11 +19,14 @@ public static class DependencyInjection
     public static IServiceCollection AddInfrastructureService(this IServiceCollection services,
         IConfiguration configuration)
     {
-        services.AddDbContext<IApplicationDbContext, ApplicationDbContext>(
-            builder =>
-                builder.UseNpgsql(
-                    configuration.GetConnectionString("PostgresConnect")
-                )
+        services.AddDbContext<ApplicationDbContext>(builder =>
+            builder.UseNpgsql(
+                configuration.GetConnectionString("PostgresConnect")
+            )
+        );
+
+        services.AddScoped<IApplicationDbContext>(
+            provider => provider.GetRequiredService<ApplicationDbContext>()
         );
 
         services.AddIdentity<ApplicationUser, ApplicationRole>()
@@ -33,13 +35,15 @@ public static class DependencyInjection
             .AddSignInManager<SignInManager<ApplicationUser>>()
             .AddDefaultTokenProviders();
 
-        services.AddTransient<IJwtProvider, JwtProvider>();
+        services.AddScoped<IJwtProvider, JwtProvider>();
         services.AddTransient<IAuthorizationHandler, AuthorizationHandler>();
         services.AddTransient<IAuthorizationPolicyProvider, AuthorizationPolicyProvider>();
 
-        services.AddTransient<IUnitOfWork, UnitOfWork>();
-        services.AddTransient<IToDoRepository, ToDoRepository>();
-        services.AddTransient<ICategoryRepository, CategoryRepository>();
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddScoped<IToDoRepository, ToDoRepository>();
+        services.AddScoped<ICategoryRepository, CategoryRepository>();
+        services.AddScoped<IToDoRepositoryQuery, ToDoRepositoryQuery>();
+        services.AddScoped<ICategoryRepositoryQuery, CategoryRepositoryQuery>();
 
         return services;
     }

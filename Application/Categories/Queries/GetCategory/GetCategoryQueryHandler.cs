@@ -6,7 +6,7 @@ using Mapster;
 namespace Application.Categories.Queries.GetCategory;
 
 public class GetCategoryQueryHandler(
-    ICategoryRepository categoryRepository
+    ICategoryRepositoryQuery categoryRepository
 )
     : IQueryHandler<GetCategoryQuery, IEnumerable<CategoryResponse>>
 {

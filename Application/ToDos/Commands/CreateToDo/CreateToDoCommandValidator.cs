@@ -1,16 +1,21 @@
-﻿namespace Application.ToDos.Commands.CreateToDo;
+﻿using Domain.Abstractions.Repository;
+
+namespace Application.ToDos.Commands.CreateToDo;
 
 public sealed class CreateToDoCommandValidator : AbstractValidator<CreateToDoCommand>
 {
-    public CreateToDoCommandValidator()
+    public CreateToDoCommandValidator(ICategoryRepositoryQuery query)
     {
         RuleFor(c => c.UserId)
-            .NotNull()
             .GreaterThan(0);
 
         RuleFor(c => c.CategoryId)
-            .NotNull()
-            .GreaterThan(0);
+            .GreaterThan(0)
+            .MustAsync(async (command, l, arg3) =>
+            {
+                var category = await query.GetByIdAndUserId(command.CategoryId, command.UserId);
+                return category is not null;
+            }).WithMessage("Not found category by id.");
 
         RuleFor(c => c.Description)
             .NotEmpty()
@@ -19,6 +24,5 @@ public sealed class CreateToDoCommandValidator : AbstractValidator<CreateToDoCom
         RuleFor(c => c.Title)
             .NotEmpty()
             .NotNull();
-        //RuleFor(c => c.Done).Custom()
     }
 }

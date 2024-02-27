@@ -6,13 +6,14 @@ namespace Application.ToDos.Commands.DeleteToDo;
 
 public class DeleteToDoCommandHandler(
     IToDoRepository toDoRepository,
+    IToDoRepositoryQuery toDoRepositoryQuery,
     IUnitOfWork unitOfWork
 )
     : ICommandHandler<DeleteToDoCommand, bool>
 {
     public async Task<bool> Handle(DeleteToDoCommand request, CancellationToken cancellationToken)
     {
-        var toDo = await toDoRepository.GetByIdAndUserId(request.Id, request.UserId);
+        var toDo = await toDoRepositoryQuery.GetByIdAndUserId(request.Id, request.UserId);
         if (toDo is null)
         {
             return false;
